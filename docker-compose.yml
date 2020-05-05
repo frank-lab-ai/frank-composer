@@ -1,0 +1,57 @@
+version: "3.5"
+
+services:
+  mongo:
+    image: mongo:4.2.6
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    volumes:
+      - ./db:/data/db
+    restart: always
+    environment: 
+      MONGO_INIT_DATABASE: frank
+    networks:
+      - franknet
+ 
+  # container that only initializes and seeds 
+  # the mongodb container with FRANK data and then exits
+  mongo-seed:
+    container_name: mongo_seed
+    build: .
+    networks:
+      - franknet
+    depends_on:
+      - mongo
+  
+  # redis db
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - 6379:6379
+    networks:
+      - franknet
+
+   
+  # frank api
+  frank-api:
+    container_name: frank-api
+    build:
+      context: ../franky
+      dockerfile: ./setup/docker/Dockerfile
+    image: frank-api:1.0
+    restart: always
+    volumes: 
+      - ./src/config.py:/app/config.py
+      - ./logs/nginx:/var/log/nginx 
+      - ./logs/uwsgi:/app/logs/uwsgi
+    networks:
+      - franknet
+
+
+networks:
+  franknet:
+    name: franknet
+    driver: bridge
+      
