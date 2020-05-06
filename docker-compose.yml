@@ -4,23 +4,27 @@ services:
   mongo:
     image: mongo:4.2.6
     container_name: mongodb
+    command: mongod --bind_ip 127.0.0.1,172.20.0.5
     ports:
       - 27017:27017
     volumes:
-      - ./db:/data/db
+      - ./mongodb_data:/data/db
     restart: always
     environment: 
       MONGO_INIT_DATABASE: frank
     networks:
-      - franknet
+      franknet:
+        ipv4_address: 172.20.0.5
  
   # container that only initializes and seeds 
   # the mongodb container with FRANK data and then exits
   mongo-seed:
-    container_name: mongo_seed
+    container_name: mongo-seed
     build: .
+    image: mongo-seed:1.0
     networks:
-      - franknet
+      franknet:
+        ipv4_address: 172.20.0.6
     depends_on:
       - mongo
   
@@ -31,9 +35,26 @@ services:
     ports:
       - 6379:6379
     networks:
-      - franknet
+      franknet:
+        ipv4_address: 172.20.0.7
 
-   
+  # neo4j
+  neo4j:
+    container_name: neo4j
+    image: neo4j
+    restart: always
+    environment:
+      NEO4J_AUTH: neo4j/@neo4j123
+    volumes:
+      - ./neo4j_data:/data
+    ports:
+      - 7474:7474
+      - 7687:7687
+    networks:
+      franknet:
+        ipv4_address: 172.20.0.8
+
+  
   # frank api
   frank-api:
     container_name: frank-api
@@ -43,15 +64,26 @@ services:
     image: frank-api:1.0
     restart: always
     volumes: 
-      - ./src/config.py:/app/config.py
-      - ./logs/nginx:/var/log/nginx 
-      - ./logs/uwsgi:/app/logs/uwsgi
+      #- ../franky/src/config.py:/app/config.py
+      - ../franky/logs/nginx:/var/log/nginx 
+      - ../franky/logs/uwsgi:/app/logs/uwsgi
+    ports:
+      - 9876:80
+      - 9877:443
     networks:
-      - franknet
-
+      franknet:
+        ipv4_address: 172.20.0.3
+    depends_on:
+      - mongo
+      - redis
+      - neo4j      
+  
 
 networks:
   franknet:
     name: franknet
     driver: bridge
-      
+    ipam:
+      driver: default
+      config: 
+        - subnet: 172.20.0.0/24
