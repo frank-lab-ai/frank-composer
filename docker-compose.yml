@@ -77,6 +77,24 @@ services:
       - mongo
       - redis
       - neo4j      
+
+
+  # frank-ui
+  frank-ui:
+    container_name: frank-ui
+    build:
+      context: ../rif_web_ui
+      dockerfile: ./setup/docker/Dockerfile
+    image: frank-ui:1.0
+    restart: always
+    volumes:
+      #- ../rif_web_ui/src/config.js:/app/src/config.js
+      - ../rif_web_ui/logs/nginx_ui:/var/log/nginx
+    networks:
+      franknet:
+        ipv4_address: 172.20.0.2
+    ports: 
+      - 80:80
   
 
 networks:
