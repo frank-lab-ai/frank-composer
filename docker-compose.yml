@@ -88,7 +88,7 @@ services:
     image: frank-ui:1.0
     restart: always
     volumes:
-      - ../rif_web_ui/src.js:/app/src
+      - ../rif_web_ui/src:/app/src
       - ../rif_web_ui/logs/nginx_ui:/var/log/nginx
     networks:
       franknet:
