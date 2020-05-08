@@ -88,13 +88,13 @@ services:
     image: frank-ui:1.0
     restart: always
     volumes:
-      #- ../rif_web_ui/src/config.js:/app/src/config.js
+      - ../rif_web_ui/src.js:/app/src
       - ../rif_web_ui/logs/nginx_ui:/var/log/nginx
     networks:
       franknet:
         ipv4_address: 172.20.0.2
     ports: 
-      - 80:80
+      - 9080:80
   
 
 networks:
