@@ -8,7 +8,7 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - ./mongodb_data:/data/db
+      - mongodb_data:/data/db
     restart: always
     environment: 
       MONGO_INIT_DATABASE: frank
@@ -45,8 +45,9 @@ services:
     restart: always
     environment:
       NEO4J_AUTH: neo4j/@neo4j123
+      NEO4J_dbms_connector_bolt_listen__address: 0.0.0.0:7687
     volumes:
-      - ./neo4j_data:/data
+      - neo4j_data:/data
     ports:
       - 7474:7474
       - 7687:7687
@@ -64,7 +65,7 @@ services:
     image: frank-api:1.0
     restart: always
     volumes: 
-      #- ../franky/src/config.py:/app/config.py
+      - ../franky/src/config.py:/app/config.py
       - ../franky/logs/nginx:/var/log/nginx 
       - ../franky/logs/uwsgi:/app/logs/uwsgi
     ports:
@@ -96,6 +97,9 @@ services:
     ports: 
       - 9080:80
   
+volumes:
+  neo4j_data:
+  mongodb_data:
 
 networks:
   franknet:
