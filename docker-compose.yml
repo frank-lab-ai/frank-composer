@@ -65,7 +65,7 @@ services:
     image: frank-api:1.0
     restart: always
     volumes: 
-      - ../franky/src/config.py:/app/config.py
+      - ../franky/src:/app
       - ../franky/logs/nginx:/var/log/nginx 
       - ../franky/logs/uwsgi:/app/logs/uwsgi
     ports:
