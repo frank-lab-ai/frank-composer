@@ -5,4 +5,4 @@ CMD mongoimport --host mongo --db frank --collection conceptheuristics --drop --
     mongoimport --host mongo --db frank --collection wb_countries --drop --file mongo_data/wb_countries.json; \
     mongoimport --host mongo --db frank --collection wikidataprops --drop --file mongo_data/wikidataprops.json; \
     mongoimport --host mongo --db frank --collection worldbankprops --drop --file mongo_data/worldbankprops.json; \
-    mongo --host mongo --eval "db=db.getSiblingDB('frank'); db.wb_countries.createIndex({name:1}); db.wikidataprops.createIndex({label:1}); db.worldbankprops.createIndex({name:1});"
+    mongo --host mongo --eval "db=db.getSiblingDB('frank'); db.wb_countries.createIndex({name:'text'}); db.wikidataprops.createIndex({label:'text'}); db.worldbankprops.createIndex({name:'text'});"
