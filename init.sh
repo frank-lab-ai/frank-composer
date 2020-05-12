@@ -17,11 +17,11 @@ if [ "$username" != "" ]; then
   echo 'cloning franky repo...'
   git clone https://$username@bitbucket.org/frank-lab/franky.git
 
-  echo '\nDone\n'
+  printf '\nDone\n'
 
   echo 'cloning franky repo...'
   git clone https://$username@bitbucket.org/frank-lab/frank-ui.git
-  echo '\nDone\n'
+  printf '\nDone\n'
 else
   echo "A bitbucket username must be provided with the -u or --username flag."
 fi
