@@ -65,7 +65,7 @@ services:
     image: frank-api:1.0
     restart: always
     volumes: 
-      - ../franky/src/config.py:/app/config.py
+      - ../franky/src:/app
       - ../franky/logs/nginx:/var/log/nginx 
       - ../franky/logs/uwsgi:/app/logs/uwsgi
     ports:
@@ -84,13 +84,13 @@ services:
   frank-ui:
     container_name: frank-ui
     build:
-      context: ../rif_web_ui
+      context: ../frank-ui
       dockerfile: ./setup/docker/Dockerfile
     image: frank-ui:1.0
     restart: always
     volumes:
-      - ../rif_web_ui/src:/app/src
-      - ../rif_web_ui/logs/nginx_ui:/var/log/nginx
+      - ../frank-ui/src:/app/src
+      - ../frank-ui/logs/nginx_ui:/var/log/nginx
     networks:
       franknet:
         ipv4_address: 172.20.0.2
