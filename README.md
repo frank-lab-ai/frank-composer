@@ -4,6 +4,7 @@
 ## What is this repository for? ###
 
 * This repository contains the necessary scripts to setup up all the source code and components to run FRANK.
+* Note: Bash and PowerShell versions of each script are provided; Powershell is open-source and cross-platform, so it may be used on Linux too; [latest release (7.x.x)](https://github.com/PowerShell/PowerShell/releases) (WIndows 10 uses 5.1 by default)
 
 
 ## How do I get set up? ###
@@ -19,7 +20,9 @@ frank
 └── frank-composer        
 ```
 
-Run the ```init.sh``` script in frank-composer to clone the ```franky``` and ```frank-ui``` repositories.
+Run the `init` script in frank-composer to clone the `franky` and `frank-ui` repositories.
+
+On Linux:
 ```
 $ ./init.sh -u <bitbucket-user-name>
 ```
@@ -27,9 +30,17 @@ or
 ```
 $ source init.sh -u <bitbucket-user-name>
 ```
+In PowerShell on Windows/Linux/Mac:
+```
+> .\init.ps1
+```
+which will interactively ask for the username, or, alternatively
+```
+> .\init.ps1 -u <bitbucket-user-name>
+```
 The script will clone the repositories into the parent directory of the frank-composer dir.   
 
-Directory structure should now look this:   
+The directory structure should now look this:   
 ```
 frank  
 | 
@@ -41,11 +52,15 @@ frank
 ```
 
 ### Create Docker Images and Launch Containers
-From the ```frank-composer``` directory, run the ```start.sh``` script.
+From the `frank-composer` directory, run the `start` script.
 ```
 $ ./start.sh
 ```
-This script uses ```docker-compose``` to create all the docker images and containers needed to run FRANK. These include:
+or
+```
+> .\start.ps1
+```
+This script uses `docker-compose` to create all the docker images and containers needed to run FRANK. These include:
 * frank-api
 * frank-ui
 * mongodb
@@ -55,14 +70,14 @@ This script uses ```docker-compose``` to create all the docker images and contai
 The mongodb will be seeded with data from
 https://frankqa.s3-eu-west-1.amazonaws.com/public/mongo_frank_init.tar.gz.
 
-To stop the containers, run the ```stop.sh``` script. You can restart the containers with the ```start.sh``` script.
+To stop the containers, run the `stop` script. You can restart the containers with the `start` script.
 
-The ```teardown.sh``` script stops the docker containers and removes all docker images built. It also removes any docker volumes for the databases which will result in the loss of data. __Use with caution!__
+The `teardown` script stops the docker containers and removes all docker images built. It also removes any docker volumes for the databases which will result in the loss of data. __Use with caution!__
 
 ### Contribution guidelines ###
 
 * Create branches for repositories that you want to make changes to.
-* Commit changes to repo. Comment commits appropriately. Commit changes regularly. Follow best-pratices for using git.
+* Commit changes to repo. Comment commits appropriately. Commit changes regularly. Follow best-practices for using git.
 * Create pull requests to merge branches with master-branch.
 
 
