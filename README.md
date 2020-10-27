@@ -24,20 +24,17 @@ Run the `init` script in frank-composer to clone the `franky` and `frank-ui` rep
 
 On Linux:
 ```
-$ ./init.sh -u <bitbucket-user-name>
+$ ./init.sh
 ```
 or
 ```
-$ source init.sh -u <bitbucket-user-name>
+$ source init.sh
 ```
 In PowerShell on Windows/Linux/Mac:
 ```
 > .\init.ps1
 ```
-which will interactively ask for the username, or, alternatively
-```
-> .\init.ps1 -u <bitbucket-user-name>
-```
+
 The script will clone the repositories into the parent directory of the frank-composer dir.   
 
 The directory structure should now look this:   
